@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>The Lab App Landing Page Flat Bootstarp responsive Website Template| Home :: w3layouts</title>
+<title>It's CultureGo time !</title>
 <link href="{{ url_for('static',filename='css/bootstrap.css') }}" rel='stylesheet' type='text/css' />
 <!-- Custom Theme files -->
 <link href="{{ url_for('static',filename='css/style.css') }}" rel="stylesheet" type="text/css" media="all" />
@@ -49,10 +49,10 @@ crossorigin=""></script>
 						<h4>
 							{% for u in users %}
 							Name: <label id="name_val">{{ u.name }}</label><br/>
-							Points: <label id="point_val">{{ u.points }}</label><br/>
+							Points: <label id="point_val">{{ u.points+10 }}</label><br/>
 							Level: <label id="level_val"></label>
-							{% for i in range(0, u.level): %}
-								<img src="{{ url_for('static',filename='images/star.png') }}" height="20%" width="20%" alt="" />
+							{% for i in range(0, 2): %}
+								<img src="{{ url_for('static',filename='images/star.png') }}" height="50" width="50" alt="" />
 							{% endfor%}
 							<br/>
 							Exp: <label id="exp_val">{{ u.experience }}</label><br/>
