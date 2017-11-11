@@ -23,7 +23,19 @@ crossorigin=""></script>
 <style>
     html,body{
         height: 100%
-    }
+	}
+	.my-custom-control {
+    padding:5px 10px;
+    background: rgba(0,0,0,0.5);
+    color: #fff;
+    font-size: 11px;
+    line-height: 18px;
+    border-radius: 5px;
+}
+
+.my-custom-control:empty {
+    display: none;
+}
 </style>
 	
 </head>
@@ -31,7 +43,7 @@ crossorigin=""></script>
         <div class="header" style="min-height: auto;">
 		<div class="container">
 			<div class="top-header">
-				<a href="index.html"><img src="{{ url_for('static',filename='images/logo.png') }}" alt="" /></a>
+				<a href="/"><img src="{{ url_for('static',filename='images/logo.png') }}" alt="" /></a>
 			</div>
 			</div>
 		</div>
@@ -50,11 +62,39 @@ crossorigin=""></script>
 		id: 'mapbox.streets'
 	}).addTo(mymap);
 
-    L.marker([46.49778, 11.3546]).addTo(mymap)
-		.bindPopup("<b>Hello world!</b><br />I am a popup.").openPopup();
-	
+	var greenIcon = new L.Icon({
+		iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png',
+		shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+		iconSize: [25, 41],
+		iconAnchor: [12, 41],
+		popupAnchor: [1, -34],
+		shadowSize: [41, 41]
+	});
 
-	mymap.on('click', onMapClick);
+	var redIcon = new L.Icon({
+		iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
+		shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+		iconSize: [25, 41],
+		iconAnchor: [12, 41],
+		popupAnchor: [1, -34],
+		shadowSize: [41, 41]
+	});
+
+
+	{% for data in open_data %}
+		{%if data[4] != "" %}
+			var popupText = '<b>{{ data[1] }}</b><br><br> {{ data[3] }}<br> <form> <input type="radio" name="{{ data[0] }}" value="1"> {{ data[4] }}<br><input type="radio" name="{{ data[0] }}" value="2">{{ data[5] }}<br><input type="radio" name="{{ data[0] }}" value="3">{{ data[6] }} <br><br> <input type="submit" value="Submit"> </form>'
+			L.marker([{{data[9]}}, {{data[10]}}], {icon: greenIcon}).addTo(mymap).bindPopup(popupText).openPopup();
+		{%endif%}
+		{% if data[4] == "" and data[7] != "" %}
+			var popupText = '<b>{{ data[1] }}</b><br><br> {{ data[3] }} <br> <form> <input type="text" name="{{ data[0] }}"><br><br><input type="submit" value="Submit"> </form>'
+			L.marker([{{data[9]}}, {{data[10]}}], {icon: redIcon}).addTo(mymap).bindPopup(popupText).openPopup();
+		{%endif%}
+		{% if data[4] == "" and data[7] == "" %}
+			var popupText = '<b>{{ data[1] }}</b><br><br> {{ data[3] }}<br> <img src="{{ url_for('static',filename='images/david-grandmougin-123135.jpg') }}" width="70%" height="50%"/>'
+			L.marker([{{data[9]}}, {{data[10]}}]).addTo(mymap).bindPopup(popupText).openPopup();
+		{% endif %}
+	{% endfor %}
 
 </script>
 

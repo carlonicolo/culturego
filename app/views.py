@@ -35,7 +35,8 @@ def index():
 
 @app.route('/game')
 def game():
-    return render_template("map1.html")
+    open_data = g.db.execute("SELECT * FROM Data").fetchall()
+    return render_template("map1.html",open_data=open_data)
 
 
 ''' @app.route('/show')
