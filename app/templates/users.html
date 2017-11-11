@@ -1,0 +1,20 @@
+<!doctype html>
+<html>
+   <body>
+    <ul>
+        
+        {% for u in users %}
+        <li>ID: {{ u.id }}</li>
+        <li>Name: {{ u.name }}</li>
+        <li>Points: {{ u.points }}</li>
+        <li>Level: {{ u.level }}</li>
+        <li>Exp: {{ u.experience }}</li>
+        <li>{{ u.disable }}</li>
+
+    {% endfor %}
+        
+    </ul>
+      <a href = "/">Go back to home page</a>
+      
+   </body>
+</html>
