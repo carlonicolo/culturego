@@ -1,40 +1,23 @@
 <!doctype html>
 <html>
    <body>
-   
-      <table border = 1>
-         <thead>
-            <td>id: </td>
-            <td>Name: </td>
-            <td>Description: </td>
-            <td>Question: </td>
-            <td>Option 1:</td>
-            <td>Option 2: </td>
-            <td>Option 3: </td>
-            <td>Answer: </td>
-            <td>img: </td>
-            <td>Coordinate 0: </td>
-            <td>Coordinate 1: </td>
-            <td>Pincode</td>
-         </thead>
-         
-         {% for row in rows %}
-            <tr>
-               <td>{{row["id"]}}</td>
-               <td>{{row["name"]}}</td>
-               <td>{{row["description"]}}</td>
-               <td> {{ row["question"]}}</td>
-               <td>{{row['opt1']}}</td>
-               <td>{{row['opt2']}}</td>
-               <td>{{row['opt3']}}</td>
-               <td>{{row['answer']}}</td>
-               <td>{{row['img']}}</td>
-               <td>{{row['coord0']}}</td>
-               <td>{{row['coord1']}}</td>	
-            </tr>
-         {% endfor %}
-      </table>
-      
+        {% for data in open_data %}
+        <br/>
+        ID: {{ data[0] }}
+        Name: {{ data[1] }}
+        {{ data[2] }}
+        {{ data[3] }}
+        {{ data[4] }}
+        {{ data[5] }}
+        {{ data[6] }}
+        {{ data[7] }}
+        {{ data[8] }}
+        {{ data[9] }}
+        {{ data[10] }}<br/>
+        ------------------
+        <br/>
+        {% endfor %}
+
       <a href = "/">Go back to home page</a>
       
    </body>

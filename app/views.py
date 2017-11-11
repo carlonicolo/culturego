@@ -1,9 +1,32 @@
 from app import app
+from flask import g
 import sqlite3
+from flask import Flask, request, render_template
 
-conn = sqlite3.connect('db.db')
-c = conn.cursor()
+#DATABASE = '/app/db.db'
 
+@app.before_request
+def before_request():
+    g.db = sqlite3.connect("app/db.db")
+
+@app.teardown_request
+def teardown_request(exception):
+    if hasattr(g, 'db'):
+        g.db.close()
+
+
+@app.route('/list')
+def emails():
+    open_data = g.db.execute("SELECT * FROM Data").fetchall()
+    return render_template('list.html',open_data=open_data)
+
+def insert_data():
+    open_data = g.db.execute()
+
+#conn = sqlite3.connect('app/db.db')
+#c = conn.cursor()
+#print("Connection status ", c)
+#print (c.execute("SELECT * FROM Data"))
 
 @app.route('/')
 def index():
@@ -20,7 +43,7 @@ def show_entries():
 
 ''' @app.route('/show')
 def list():
-   con = sqlite3.connect("db.db")
+   con = sql.connect("db.db")
    con.row_factory = sql.Row
    
    cur = con.cursor()
@@ -29,10 +52,3 @@ def list():
    rows = cur.fetchall(); 
    return render_templates("list.html",rows = rows) '''
 
-@app.route('/show')
-def read_from_db():
-    c.execute('SELECT * FROM Data')
-    data = c.fetchall()
-    print(data)
-    for row in data:
-        print(row)
