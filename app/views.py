@@ -16,13 +16,28 @@ def teardown_request(exception):
         g.db.close()
 
 
-@app.route('/list')
-def emails():
-    open_data = g.db.execute("SELECT * FROM Data").fetchall()
-    return render_template('list.html',open_data=open_data)
+@app.route('/users')
+def users():
+    cur = g.db.execute('SELECT * FROM User WHERE name="Pippo"')
+    users = [dict(id=row[0], name=row[1], points=row[2], level=row[3], experience=row[4], disable=row[5]) for row in cur.fetchall()]
+    #g.db.close()
+    # name = users['name']
+    # id = users['id']
+    # points = users['points']
+    # level = users['level']
+    # experience = users['experience']
+    # disable = users['disable'] 
+    print (users)
+    return render_template('users.html', users=users)
 
-def insert_data():
-    open_data = g.db.execute()
+
+
+@app.route('/list')
+def show_data_db(name=None):
+    open_data = g.db.execute("SELECT * FROM Data").fetchall()
+    user = g.db.execute("SELECT * FROM User").fetchall()
+    return render_template('list.html',open_data=open_data,user=user)
+
 
 #conn = sqlite3.connect('app/db.db')
 #c = conn.cursor()
