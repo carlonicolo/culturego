@@ -20,6 +20,7 @@ crossorigin=""/>
 <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
 integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
 crossorigin=""></script>
+<script type="text/javascript" src="{{ url_for('static',filename='MovingMarker.js') }}"></script>
 <style>
     html,body{
         height: 100%
@@ -45,20 +46,27 @@ crossorigin=""></script>
 				<div class="top-header">
 					<a href="/"><img src="{{ url_for('static',filename='images/logo.png') }}" alt="" /></a>
 					<div style="float: right;">
-						{% for u in users %}
-							Name: <label id="name_val">{{ u.name }}</label><br>
-							Points: <label id="point_val">{{ u.points }}</label><br>
-							Level: <label id="level_val">{{ u.level }}</label><br>
-							Exp: <label id="exp_val">{{ u.experience }}</label><br>
-							Disability: <label id="disble_val">{{ u.disable }}</label>
+						<h4>
+							{% for u in users %}
+							Name: <label id="name_val">{{ u.name }}</label><br/>
+							Points: <label id="point_val">{{ u.points }}</label><br/>
+							Level: <label id="level_val"></label>
+							{% for i in range(0, u.level): %}
+								<img src="{{ url_for('static',filename='images/star.png') }}" height="20%" width="20%" alt="" />
+							{% endfor%}
+							<br/>
+							Exp: <label id="exp_val">{{ u.experience }}</label> &nbsp;&nbsp;&nbsp;&nbsp; Disability: <label id="disble_val">{{ u.disable }}</label><br/>
+							
+							<!-- Sum : <label>{{ u.points + u.level }}</label><br/> -->
 						{% endfor %}
+						</h4>
 					</div>
 				</div>
 			</div>
 		</div>
 
 
-<div id="mapid" style="width: 100%; height: 83%;"></div>
+<div id="mapid" style="width: 100%; height: 86%;"></div>
 <script>
 
 	var mymap = L.map('mapid').setView([46.49778, 11.3546], 17);
@@ -89,21 +97,23 @@ crossorigin=""></script>
 		shadowSize: [41, 41]
 	});
 
-
 	{% for data in open_data %}
 		{% if data[4] == "" and data[7] == "" %}
-			var popupText = '<b>{{ data[1] }}</b><br><br> {{ data[3] }}<br> <img src="{{ url_for('static',filename='images/david-grandmougin-123135.jpg') }}" width="70%" height="50%"/>'
+			var popupText = '<center><h1>{{ data[1] }}</h1><br><br><h3> {{ data[3] }}<br> <img src="{{ url_for('static',filename='images/david-grandmougin-123135.jpg') }}" width="70%" height="50%"/></center>'
 			L.marker([{{data[9]}}, {{data[10]}}]).addTo(mymap).bindPopup(popupText);
 		{% endif %}
 		{%if data[4] != "" %}
-			var popupText = '<b>{{ data[1] }}</b><br><br> {{ data[3] }}<br> <form> <input type="radio" name="{{ data[0] }}" value="1"> {{ data[4] }}<br><input type="radio" name="{{ data[0] }}" value="2">{{ data[5] }}<br><input type="radio" name="{{ data[0] }}" value="3">{{ data[6] }} <br><br> <input type="submit" value="Submit"> </form>'
-			L.marker([{{data[9]}}, {{data[10]}}], {icon: greenIcon}).addTo(mymap).bindPopup(popupText).openPopup();
+			var popupText = '<center><h1>{{ data[1] }}</h1><br><br> <h3>{{ data[3] }}</h3><br><h4> <form> <input type="radio" name="{{ data[0] }}" value="1"> {{ data[4] }}<br><input type="radio" name="{{ data[0] }}" value="2">{{ data[5] }}<br><input type="radio" name="{{ data[0] }}" value="3">{{ data[6] }} <br><br> <input type="submit" value="Submit"> </form></h4></center>'
+			L.marker([{{data[9]}}, {{data[10]}}], {icon: greenIcon}).addTo(mymap).bindPopup(popupText);
 		{%endif%}
 		{% if data[4] == "" and data[7] != "" %}
-			var popupText = '<b>{{ data[1] }}</b><br><br> {{ data[3] }} <br> <form> <input type="text" name="{{ data[0] }}"><br><br><input type="submit" value="Submit"> </form>'
-			L.marker([{{data[9]}}, {{data[10]}}], {icon: redIcon}).addTo(mymap).bindPopup(popupText).openPopup();
+			var popupText = '<center><h1>{{ data[1] }}</h1><br><br><h3> {{ data[3] }}</h3> <br> <form> <input type="text" name="{{ data[0] }}"><br><br><input type="submit" value="Submit"> </form></center>'
+			L.marker([{{data[9]}}, {{data[10]}}], {icon: redIcon}).addTo(mymap).bindPopup(popupText);
 		{%endif%}
 	{% endfor %}
+
+	var popupText = ''
+	L.marker([46.49768, 11.35373], {icon: redIcon}).addTo(mymap);
 
 </script>
 
