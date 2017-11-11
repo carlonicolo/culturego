@@ -31,6 +31,16 @@ def users():
     return render_template('users.html', users=users)
 
 
+@app.route('/result',methods = ['POST', 'GET'])
+def result():
+   if request.method == 'GET':
+      result = request.form
+      open_data = g.db.execute("SELECT * FROM Data").fetchall()
+      cur = g.db.execute('SELECT * FROM User WHERE name="Pippo"')
+      users = [dict(id=row[0], name=row[1], points=row[2], level=row[3], experience=row[4], disable=row[5]) for row in cur.fetchall()]
+      return render_template("result.html",open_data=open_data,users=users)
+
+
 
 @app.route('/list')
 def show_data_db(name=None):
