@@ -51,7 +51,9 @@ def index():
 @app.route('/game')
 def game():
     open_data = g.db.execute("SELECT * FROM Data").fetchall()
-    return render_template("map1.html",open_data=open_data)
+    cur = g.db.execute('SELECT * FROM User WHERE name="Pippo"')
+    users = [dict(id=row[0], name=row[1], points=row[2], level=row[3], experience=row[4], disable=row[5]) for row in cur.fetchall()]
+    return render_template("map1.html",open_data=open_data, users=users)
 
 
 ''' @app.route('/show')
