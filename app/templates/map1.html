@@ -44,7 +44,7 @@ crossorigin=""></script>
         <div class="header" style="min-height: auto;">
 			<div class="container">
 				<div class="top-header">
-					<a href="/"><img src="{{ url_for('static',filename='images/logo.png') }}" alt="" /></a>
+					<a href="/"><img src="{{ url_for('static',filename='images/logo_go.png') }}" alt="" /></a>
 					<div style="float: right;">
 						<h4>
 							{% for u in users %}
@@ -55,7 +55,8 @@ crossorigin=""></script>
 								<img src="{{ url_for('static',filename='images/star.png') }}" height="20%" width="20%" alt="" />
 							{% endfor%}
 							<br/>
-							Exp: <label id="exp_val">{{ u.experience }}</label> &nbsp;&nbsp;&nbsp;&nbsp; Disability: <label id="disble_val">{{ u.disable }}</label><br/>
+							Exp: <label id="exp_val">{{ u.experience }}</label><br/>
+							Disability: <label id="disble_val">{{ u.disable }}</label><br/>
 							
 							<!-- Sum : <label>{{ u.points + u.level }}</label><br/> -->
 						{% endfor %}
@@ -97,6 +98,13 @@ crossorigin=""></script>
 		shadowSize: [41, 41]
 	});
 
+	var kidIcon = new L.Icon({
+		iconUrl: '{{ url_for('static',filename='images/kid_go.png') }}',
+		iconSize: [100, 110],
+		iconAnchor: [12, 41],
+		popupAnchor: [1, -34]
+	});
+
 	{% for data in open_data %}
 		{% if data[4] == "" and data[7] == "" %}
 			var popupText = '<center><h1>{{ data[1] }}</h1><br><br><h3> {{ data[3] }}<br> <img src="{{ url_for('static',filename='images/david-grandmougin-123135.jpg') }}" width="70%" height="50%"/></center>'
@@ -113,7 +121,7 @@ crossorigin=""></script>
 	{% endfor %}
 
 	var popupText = ''
-	L.marker([46.49768, 11.35373], {icon: redIcon}).addTo(mymap);
+	L.marker([46.49771, 11.35544], {icon: kidIcon}).addTo(mymap);
 
 </script>
 
