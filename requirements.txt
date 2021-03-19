@@ -9,7 +9,7 @@ Flask-WTF==0.14.2
 gunicorn==19.7.1
 idna==2.6
 itsdangerous==0.24
-Jinja2==2.9.6
+Jinja2==2.11.3
 keen==0.4.0
 MarkupSafe==1.0
 pycryptodome==3.4.7
