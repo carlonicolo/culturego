@@ -16,6 +16,6 @@ pycryptodome==3.4.7
 pytz==2017.2
 requests==2.10.0
 six==1.10.0
-urllib3==1.22
+urllib3==1.26.5
 Werkzeug==0.12.2
 WTForms==2.1
